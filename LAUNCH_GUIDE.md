@@ -93,7 +93,7 @@ Follow the steps in order. Each one says what to copy and where to paste it.
 
 1. Enroll in the Apple Developer Program at <https://developer.apple.com/programs/>. Approval can take 1–2 days.
 2. In **App Store Connect → Apps → +**, create a new app:
-   - Bundle ID: `com.hillig.justintime`. To change it, also edit `mobile/app.json`.
+   - Bundle ID: `com.justintime.flight.tracker`. To change it, also edit `mobile/app.json`.
    - SKU: `justintime`
 3. Once the app is created, copy its **Apple ID** number (under App Information) into `mobile/eas.json` → `ascAppId`.
 4. **Monetization → Subscriptions**: create a subscription group "Pro" with two products:
@@ -103,7 +103,7 @@ Follow the steps in order. Each one says what to copy and where to paste it.
 
 ## Step 5: RevenueCat (subscriptions)
 
-1. Create a project at <https://app.revenuecat.com> and add an **App Store** app with bundle ID `com.hillig.justintime`. Upload an In-App Purchase key from App Store Connect; RevenueCat walks you through it.
+1. Create a project at <https://app.revenuecat.com> and add an **App Store** app with bundle ID `com.justintime.flight.tracker`. Upload an In-App Purchase key from App Store Connect; RevenueCat walks you through it.
 2. **Products**: import `jit_pro_monthly` and `jit_pro_annual`.
 3. **Entitlements**: create one called exactly **`pro`** and attach both products.
 4. **Offerings**: the "default" offering should hold two packages, **Monthly** and **Annual**, each with the matching product.

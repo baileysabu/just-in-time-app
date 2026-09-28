@@ -10,7 +10,7 @@
     "backgroundColor": "#121212",
     "newArchEnabled": true,
     "ios": {
-      "bundleIdentifier": "com.hillig.justintime",
+      "bundleIdentifier": "com.justintime.flight.tracker",
       "buildNumber": "1",
       "supportsTablet": false,
       "config": { "usesNonExemptEncryption": false },
