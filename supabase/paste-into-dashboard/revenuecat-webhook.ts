@@ -22,9 +22,31 @@ export function env(name: string): string {
   return v;
 }
 
+/** Newer Supabase projects expose API keys as JSON maps instead of the legacy vars. */
+function keyFromMap(mapVar: string): string | undefined {
+  try {
+    const map = JSON.parse(Deno.env.get(mapVar) ?? "{}") as Record<string, string>;
+    return map.default ?? Object.values(map)[0];
+  } catch {
+    return undefined;
+  }
+}
+
+function anonKey(): string {
+  const k = Deno.env.get("SUPABASE_ANON_KEY") || keyFromMap("SUPABASE_PUBLISHABLE_KEYS");
+  if (!k) throw new Error("Missing Supabase publishable/anon key");
+  return k;
+}
+
+function serviceKey(): string {
+  const k = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || keyFromMap("SUPABASE_SECRET_KEYS");
+  if (!k) throw new Error("Missing Supabase secret/service-role key");
+  return k;
+}
+
 /** Service-role client: bypasses RLS. Only use server-side. */
 export function adminClient(): SupabaseClient {
-  return createClient(env("SUPABASE_URL"), env("SUPABASE_SERVICE_ROLE_KEY"), {
+  return createClient(env("SUPABASE_URL"), serviceKey(), {
     auth: { persistSession: false },
   });
 }
@@ -35,7 +57,7 @@ export async function userClient(
 ): Promise<{ client: SupabaseClient; userId: string } | null> {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) return null;
-  const client = createClient(env("SUPABASE_URL"), env("SUPABASE_ANON_KEY"), {
+  const client = createClient(env("SUPABASE_URL"), anonKey(), {
     global: { headers: { Authorization: authHeader } },
     auth: { persistSession: false },
   });
