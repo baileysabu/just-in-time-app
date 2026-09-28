@@ -1,0 +1,9 @@
+# Supabase CLI config (only the parts this project relies on)
+project_id = "just-in-time"
+
+# Called by pg_cron / RevenueCat with their own shared secret, not a user JWT
+[functions.refresh-flights]
+verify_jwt = false
+
+[functions.revenuecat-webhook]
+verify_jwt = false

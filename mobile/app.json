@@ -1,0 +1,63 @@
+{
+  "expo": {
+    "name": "Just In Time",
+    "slug": "just-in-time",
+    "scheme": "justintime",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#121212",
+    "newArchEnabled": true,
+    "ios": {
+      "bundleIdentifier": "com.hillig.justintime",
+      "buildNumber": "1",
+      "supportsTablet": false,
+      "config": { "usesNonExemptEncryption": false },
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Just In Time uses your location to calculate live drive time to the airport, so your leave-by time is accurate.",
+        "NSCalendarsUsageDescription": "Just In Time scans your calendar for flight numbers so you can import upcoming trips in one tap.",
+        "NSCalendarsFullAccessUsageDescription": "Just In Time scans your calendar for flight numbers so you can import upcoming trips in one tap.",
+        "UIBackgroundModes": ["remote-notification"]
+      }
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 160,
+          "backgroundColor": "#121212"
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#00E5FF"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Just In Time uses your location to calculate live drive time to the airport, so your leave-by time is accurate."
+        }
+      ],
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "Just In Time scans your calendar for flight numbers so you can import upcoming trips in one tap."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": false
+    },
+    "extra": {
+      "eas": {
+        "projectId": "REPLACE_WITH_EAS_PROJECT_ID"
+      }
+    }
+  }
+}

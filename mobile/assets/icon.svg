@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="70%">
+      <stop offset="0" stop-color="#232323"/><stop offset="1" stop-color="#101010"/>
+    </radialGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="14" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <circle cx="512" cy="512" r="300" fill="none" stroke="#2c2c2c" stroke-width="56"/>
+  <!-- countdown arc (~75%) -->
+  <path d="M512 212 A300 300 0 1 1 212 512" fill="none" stroke="#00E5FF" stroke-width="56" stroke-linecap="round" filter="url(#glow)"/>
+  <!-- clock hands -->
+  <g filter="url(#glow)" stroke="#FFD700" stroke-linecap="round">
+    <line x1="512" y1="512" x2="512" y2="340" stroke-width="44"/>
+    <line x1="512" y1="512" x2="630" y2="580" stroke-width="44"/>
+  </g>
+  <circle cx="512" cy="512" r="36" fill="#FFD700"/>
+</svg>
