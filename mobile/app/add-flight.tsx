@@ -8,6 +8,7 @@ import { addTrip, lookupFlight, UserError } from "@/lib/api";
 import { scanCalendarForFlights } from "@/lib/calendar";
 import { displayFlightNumber, localDateString, normalizeFlightNumber, type FlightCandidate } from "@/lib/flights";
 import { formatClock, formatDay } from "@/lib/format";
+import { SUBSCRIPTIONS_ENABLED } from "@/lib/config";
 import { useApp } from "@/lib/store";
 import { colors, fonts, radius } from "@/lib/theme";
 import type { FlightInfo } from "@/lib/types";
@@ -62,7 +63,7 @@ export default function AddFlight() {
       selectTrip(trip.id);
       router.back();
     } catch (e) {
-      if (e instanceof UserError && e.message === "FREE_TRIP_LIMIT") {
+      if (SUBSCRIPTIONS_ENABLED && e instanceof UserError && e.message === "FREE_TRIP_LIMIT") {
         Alert.alert(
           "Free plan limit",
           "The free plan tracks 2 upcoming flights. Upgrade to Pro for unlimited trips and live alerts.",

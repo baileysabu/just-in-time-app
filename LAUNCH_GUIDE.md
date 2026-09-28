@@ -183,3 +183,29 @@ In App Store Connect → your app → the new version:
 - Terminal maps for top airports
 - Partner links (Uber, parking, eSIM) once agreements are in place
 - Android (the same codebase builds for Android with `eas build --platform android`)
+
+---
+
+## Subscriptions are OFF in v2.0
+
+For the first release every user gets all features free (unlimited trips, live delay/gate alerts).
+This is controlled by `SUBSCRIPTIONS_ENABLED = false` in `mobile/src/lib/config.ts`, and on the
+server by making every profile Pro:
+
+```sql
+alter table public.profiles alter column is_pro set default true;
+update public.profiles set is_pro = true;
+```
+
+So **skip Step 5 (RevenueCat)** and the subscription parts of Step 4 for now; the
+`EXPO_PUBLIC_REVENUECAT_IOS_KEY` env var can be left out.
+
+### Re-enable Pro later
+1. Get the Paid Apps agreement Active (App Store Connect → Business), then do Steps 4.4 and 5.
+2. Set `SUBSCRIPTIONS_ENABLED = true` and add `EXPO_PUBLIC_REVENUECAT_IOS_KEY`.
+3. Run:
+   ```sql
+   alter table public.profiles alter column is_pro set default false;
+   update public.profiles set is_pro = false where pro_expires_at is null;
+   ```
+4. Ship an app update.

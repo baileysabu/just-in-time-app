@@ -11,6 +11,13 @@ export const config = {
   supportEmail: process.env.EXPO_PUBLIC_SUPPORT_EMAIL ?? "",
 };
 
+/**
+ * Pro subscriptions are switched off for v2.0: every user gets all features free.
+ * To launch Pro later: set this to true, configure RevenueCat + App Store products,
+ * and run the "re-enable Pro" SQL in LAUNCH_GUIDE.md.
+ */
+export const SUBSCRIPTIONS_ENABLED = false;
+
 /** RevenueCat entitlement identifier configured in the RevenueCat dashboard. */
 export const PRO_ENTITLEMENT = "pro";
 

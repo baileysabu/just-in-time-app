@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Alert, Pressable, View } from "react-native";
 import { Badge, Button, Card, Screen, T, ToggleRow } from "@/components/ui";
 import { deleteAccount, updateProfile } from "@/lib/api";
-import { config } from "@/lib/config";
+import { config, SUBSCRIPTIONS_ENABLED } from "@/lib/config";
 import { timeAgo } from "@/lib/format";
 import { restorePurchases } from "@/lib/purchases";
 import { useApp } from "@/lib/store";
@@ -67,29 +67,31 @@ export default function Profile() {
         <T kind="caption">{session?.user.email}</T>
       </View>
 
-      <Card>
-        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-          <T kind="h3">Subscription</T>
-          <Badge tone={isPro ? "success" : "muted"}>{isPro ? "★ Pro" : "Free"}</Badge>
-        </View>
-        <T kind="caption">
-          {isPro
-            ? "Live delay & gate alerts and unlimited trips are on."
-            : "Free plan: 2 upcoming trips and leave-by reminders."}
-        </T>
-        {isPro ? (
-          <Button
-            title="Manage subscription"
-            variant="outline"
-            onPress={() => Linking.openURL("https://apps.apple.com/account/subscriptions")}
-          />
-        ) : (
-          <Button title="Upgrade to Pro" onPress={() => router.push("/paywall")} />
-        )}
-        <Pressable onPress={restore} disabled={busy === "restore"}>
-          <T kind="caption" color={colors.primary}>{busy === "restore" ? "Restoring…" : "Restore purchases"}</T>
-        </Pressable>
-      </Card>
+      {SUBSCRIPTIONS_ENABLED ? (
+        <Card>
+          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+            <T kind="h3">Subscription</T>
+            <Badge tone={isPro ? "success" : "muted"}>{isPro ? "★ Pro" : "Free"}</Badge>
+          </View>
+          <T kind="caption">
+            {isPro
+              ? "Live delay & gate alerts and unlimited trips are on."
+              : "Free plan: 2 upcoming trips and leave-by reminders."}
+          </T>
+          {isPro ? (
+            <Button
+              title="Manage subscription"
+              variant="outline"
+              onPress={() => Linking.openURL("https://apps.apple.com/account/subscriptions")}
+            />
+          ) : (
+            <Button title="Upgrade to Pro" onPress={() => router.push("/paywall")} />
+          )}
+          <Pressable onPress={restore} disabled={busy === "restore"}>
+            <T kind="caption" color={colors.primary}>{busy === "restore" ? "Restoring…" : "Restore purchases"}</T>
+          </Pressable>
+        </Card>
+      ) : null}
 
       <Card>
         <T kind="h3">Timing preferences</T>

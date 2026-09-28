@@ -5,6 +5,7 @@ import { Alert, Pressable, RefreshControl, View } from "react-native";
 import { Breakdown, FlightCard, LeaveByCard, Milestones, TripSelector } from "@/components/trip";
 import { Badge, Button, Card, Screen, T } from "@/components/ui";
 import { updateTrip } from "@/lib/api";
+import { SUBSCRIPTIONS_ENABLED } from "@/lib/config";
 import { useApp } from "@/lib/store";
 import { colors } from "@/lib/theme";
 import type { SegmentId } from "@/lib/timing";
@@ -59,9 +60,11 @@ export default function Home() {
           <T kind="h1" numberOfLines={1}>{name}</T>
         </View>
         <View style={{ flexDirection: "row", gap: 8, alignItems: "center" }}>
-          <Pressable onPress={() => router.push("/paywall")} accessibilityLabel="Pro">
-            <Badge tone={isPro ? "success" : "primary"}>{isPro ? "★ Pro" : "Go Pro"}</Badge>
-          </Pressable>
+          {SUBSCRIPTIONS_ENABLED ? (
+            <Pressable onPress={() => router.push("/paywall")} accessibilityLabel="Pro">
+              <Badge tone={isPro ? "success" : "primary"}>{isPro ? "★ Pro" : "Go Pro"}</Badge>
+            </Pressable>
+          ) : null}
           <Pressable
             accessibilityLabel="Add flight"
             onPress={() => router.push("/add-flight")}
@@ -103,7 +106,7 @@ export default function Home() {
             <Milestones trip={activeTrip} onStamp={stamp} compact />
           </Card>
           <Breakdown trip={activeTrip} segments={timing.segments} onAdjust={adjust} />
-          {!isPro ? (
+          {SUBSCRIPTIONS_ENABLED && !isPro ? (
             <Card style={{ borderColor: colors.primary + "66", backgroundColor: colors.primary + "12" }}>
               <Badge tone="primary">Pro Pass</Badge>
               <T kind="h3">Live delay & gate alerts</T>

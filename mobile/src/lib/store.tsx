@@ -13,6 +13,7 @@ import {
 import { AppState } from "react-native";
 import * as api from "./api";
 import { registerForPush, scheduleLeaveReminders } from "./notifications";
+import { SUBSCRIPTIONS_ENABLED } from "./config";
 import { hasProEntitlement, initPurchases, logOutPurchases } from "./purchases";
 import { supabase } from "./supabase";
 import { isUpcoming, type Profile, type Trip, type TripAlert } from "./types";
@@ -99,12 +100,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
       } finally {
         if (!cancelled) setLoadedFor(userId);
       }
-      try {
-        await initPurchases(userId);
-        const pro = await hasProEntitlement();
-        if (!cancelled) setEntitled(pro);
-      } catch (e) {
-        console.warn("purchases init failed", e);
+      if (SUBSCRIPTIONS_ENABLED) {
+        try {
+          await initPurchases(userId);
+          const pro = await hasProEntitlement();
+          if (!cancelled) setEntitled(pro);
+        } catch (e) {
+          console.warn("purchases init failed", e);
+        }
       }
       registerForPush();
     })();
@@ -134,7 +137,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     [trips, now],
   );
   const activeTrip = upcoming.find((t) => t.id === selectedId) ?? upcoming[0] ?? null;
-  const isPro = entitled || !!profile?.is_pro;
+  const isPro = !SUBSCRIPTIONS_ENABLED || entitled || !!profile?.is_pro;
 
   // Keep local leave-by reminders in sync with the data
   useEffect(() => {

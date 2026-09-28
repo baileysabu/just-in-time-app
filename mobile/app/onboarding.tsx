@@ -17,7 +17,7 @@ const STEPS = [
   {
     icon: "notifications-outline" as const,
     title: "Get a nudge when it's time",
-    body: "We'll remind you 30 minutes before you should leave, and again when it's time to go. Pro members also get live delay and gate-change alerts.",
+    body: "We'll remind you 30 minutes before you should leave, and again when it's time to go. We'll also alert you the moment your flight is delayed or changes gate.",
   },
   {
     icon: "car-outline" as const,
